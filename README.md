@@ -1,3 +1,10 @@
 # videoplayer-Raspberry-Pi
-use ios app and Raspberry Pi to make a video player
- using xcode
+using xcode python
+
+
+##function
+
+* play videos
+*  basic player‘s fuctions
+* shaking while playing
+*   use Raspberry Pi
