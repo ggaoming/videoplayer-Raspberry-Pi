@@ -155,11 +155,11 @@
     [httpclient setDefaultHeader:@"Accept" value:@"text/json"];
     [httpclient postPath:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"data====%@",params);
+        //NSLog(@"data====%@",params);
         
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         
-        NSLog(@"Request Successful, response '%@'", responseStr);
+        //NSLog(@"Request Successful, response '%@'", responseStr);
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

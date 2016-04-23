@@ -83,6 +83,7 @@
 }
 
 #pragma mark - VKVideoPlayerControllerDelegate
+
 - (void)videoPlayer:(VKVideoPlayer*)videoPlayer didControlByEvent:(VKVideoPlayerControlEvent)event {
   NSLog(@"%s event:%d", __FUNCTION__, event);
   __weak __typeof(self) weakSelf = self;

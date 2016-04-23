@@ -11,7 +11,7 @@
 #import "VKVideoPlayerTrack.h"
 #import "NSObject+VKFoundation.h"
 #import "VKVideoPlayerExternalMonitor.h"
-
+#import "AFHTTPClient.h"
 
 #define VKCaptionPadding 10
 #define degreesToRadians(x) (M_PI * x / 180.0f)
@@ -126,6 +126,36 @@ typedef enum {
   RUN_ON_UI_THREAD(^{
     [weakSelf playVideoTrack:self.videoTrack];
   });
+}
+
+/*******    add event ******/
+/*
+ * pause stop start
+ * use afnet to sent string
+ */
+-(void)player_control_events:(NSString *)event{
+    NSString * str = event;
+    NSLog(@"event %@",str);
+    NSString * url = @"http://127.0.0.1:1234/shake";
+    NSMutableDictionary *params=[[NSMutableDictionary alloc] init];
+    [params setObject:str forKey:@"keys"];
+    
+    AFHTTPClient * httpclient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@""]];
+    httpclient.parameterEncoding = AFJSONParameterEncoding;
+    [httpclient setDefaultHeader:@"Accept" value:@"text/json"];
+    [httpclient postPath:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        //NSLog(@"data====%@",params);
+        
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        
+        //NSLog(@"Request Successful, response '%@'", responseStr);
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"[HTTPClient Error]: %@", error);
+    }];
 }
 
 #pragma mark - Error Handling
@@ -715,6 +745,7 @@ typedef enum {
       return @"ContentLoading";
       break;
     case VKVideoPlayerStateContentPaused:
+          
       return @"ContentPaused";
       break;
     case VKVideoPlayerStateContentPlaying:
@@ -749,15 +780,27 @@ typedef enum {
     
     switch (oldPlayerState) {
       case VKVideoPlayerStateContentLoading:
-        [self setLoading:NO];
-        break;
+        {
+            [self setLoading:NO];
+            break;
+        }
       case VKVideoPlayerStateContentPlaying:
-        break;
+        {
+            //NSLog(@"playing");
+            [self player_control_events:@"pause"];
+            break;
+        }
       case VKVideoPlayerStateContentPaused:
-        self.view.bigPlayButton.hidden = YES;
-        break;
+        {
+            [self player_control_events:@"start"];
+            self.view.bigPlayButton.hidden = YES;
+            break;
+        }
       case VKVideoPlayerStateDismissed:
-        break;
+        {
+            [self player_control_events:@"dismissed"];
+            break;
+        }
       case VKVideoPlayerStateError:
         self.view.messageLabel.hidden = YES;
         break;
@@ -1024,6 +1067,8 @@ typedef enum {
 
 - (void)doneButtonTapped {
   if ([self.delegate respondsToSelector:@selector(videoPlayer:didControlByEvent:)]) {
+      //eixt
+      [self player_control_events:@"exit"];
     [self.delegate videoPlayer:self didControlByEvent:VKVideoPlayerControlEventTapDone];
   }
 }
@@ -1327,6 +1372,5 @@ typedef enum {
 - (CMTime)currentCMTime {
   return [self currentTime];
 }
-
 @end
 
