@@ -146,7 +146,7 @@
 -(void)send_string_to_url:(NSString *)str
 {
     
-    NSString * url = @"http://127.0.0.1:1234/shake";
+    NSString * url = SERVER_URL;
     NSMutableDictionary *params=[[NSMutableDictionary alloc] init];
     [params setObject:str forKey:@"keys"];
 

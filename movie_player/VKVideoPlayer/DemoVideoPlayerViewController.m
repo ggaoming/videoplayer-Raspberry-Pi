@@ -41,7 +41,7 @@
 - (void)playSampleClip1 {
     [self playStream:[NSURL URLWithString:@"http://localhost:12345/123.mp4"]];
   
-    //[self setLanguageCode:@"EN"];
+    [self setLanguageCode:@"JP"];
     [self setShakingCode:@"JP"];
   //[self.player setCaptionToTop:[self testCaption:@"testCaptionTop"]];
 }
