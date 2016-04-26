@@ -39,7 +39,7 @@
 }
 
 - (void)playSampleClip1 {
-    [self playStream:[NSURL URLWithString:@"http://localhost:12345/123.mp4"]];
+    [self playStream:[NSURL URLWithString:@"http://localhost:12345/jinganglang.mp4"]];
   
     [self setLanguageCode:@"JP"];
     [self setShakingCode:@"JP"];
