@@ -96,7 +96,7 @@
 }
 
 - (NSString*)contentAtTime:(NSInteger)timeInMilliseconds {
-    //NSLog(@"time: %ld",(long)timeInMilliseconds);
+NSLog(@"time: %ld",(long)timeInMilliseconds);
   NSDictionary* time = [NSDictionary dictionaryWithObjectsAndKeys:
                         @"", @"content",
                         [NSNumber numberWithInteger:timeInMilliseconds], @"start_time",
